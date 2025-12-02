@@ -1,0 +1,19 @@
+{
+  "name": "signin",
+  "version": "1.0.0",
+  "description": "0. index\r    - GET: \"/\"\r    - 안녕하세요 ~~서버 입니다\r 1. dogs [crud]\r    - GET: get 강아지 리스트\r    - POST: dogs 개추\r    - DELETE: dogs 개삭\r    - UPDATE: dogs 개수\r 2. 전체 고려사항\r    - CORS\r    - 파일 분리[Controller,Middleware, Schema, Repository]",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "joi": "^18.0.2"
+  }
+}

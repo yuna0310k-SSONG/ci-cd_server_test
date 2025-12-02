@@ -10,17 +10,25 @@ router.get("/", async (req, res) => {
 });
 
 // POST: dogs 강아지 추가
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const { error, value } = dogSchema.validate(req.body);
   if (error) {
     return res.status(400).json({ error: error.details[0].message });
   }
-  const newDog = addDog(value);
-  res.status(201).json({
-    success: true,
-    message: "강아지 추가 완료! 🐶✨",
-    data: newDog,
-  });
+  try {
+    const newDog = await addDog(value);
+    res.status(201).json({
+      success: true,
+      message: "강아지 추가 완료! 🐶✨",
+      data: newDog,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "강아지 추가에 실패했습니다.",
+      error: err.message,
+    });
+  }
 });
 
 // PUT: dogs 개

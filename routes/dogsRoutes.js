@@ -16,11 +16,14 @@ router.post("/", (req, res) => {
     return res.status(400).json({ error: error.details[0].message });
   }
   const newDog = addDog(value);
-  res.status(201).json(newDog);
+  res.status(201).json({
+    success: true,
+    message: "강아지 추가 완료! 🐶✨",
+    data: newDog,
+  });
 });
 
-// PUT: dogs 개수
-
+// PUT: dogs 개
 router.put("/:index", async (req, res) => {
   const { index } = req.params;
   const { error, value } = dogUpdateSchema.validate(req.body); // 수정된 스키마 사용
@@ -29,9 +32,16 @@ router.put("/:index", async (req, res) => {
   }
   try {
     const updatedDog = await updateDog(parseInt(index, 10), value);
-    res.json(updatedDog);
+    res.json({
+      success: true,
+      message: "강아지 정보가 성공적으로 수정되었습니다! 🐶✨",
+      data: updatedDog,
+    });
   } catch (err) {
-    res.status(404).json({ error: "Dog not found" });
+    return res.status(404).json({
+      success: false,
+      message: "해당 강아지는 존재하지 않습니다 🐕‍🦺❌",
+    });
   }
 });
 
@@ -42,9 +52,16 @@ router.delete("/:index", async (req, res) => {
 
   try {
     const deletedDog = await deleteDog(id);
-    res.json(deletedDog);
+    res.json({
+      success: true,
+      message: "강아지가 성공적으로 삭제되었습니다! 🐶🗑️✨",
+      data: deletedDog,
+    });
   } catch (error) {
-    res.status(404).json({ error: "Dog not found" });
+    res.status(404).json({
+      success: false,
+      message: "삭제하려는 강아지가 존재하지 않습니다 🐕‍🦺❌",
+    });
   }
 });
 

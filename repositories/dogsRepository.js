@@ -1,29 +1,29 @@
-import { handleValidationError, handleNotFoundError } from "../utils/errorHandlers.js";
+import { PrismaClient } from "@prisma/client";
 
-const dogs = [
-  { name: "Buddy", breed: "Golden Retriever", age: 3 },
-  { name: "Max", breed: "Bulldog", age: 5 },
-  { name: "Bella", breed: "Poodle", age: 2 },
-];
+const prisma = new PrismaClient();
 
-export const getDogs = () => dogs;
+export const getDogs = async () => {
+  return await prisma.dogs.findMany();
+};
 
-export const addDog = (dog) => {
-  dogs.push(dog);
+export const addDog = async (dog) => {
+  const newDog = await prisma.dogs.create({
+    data: dog,
+  });
+  return newDog;
+};
+
+export const updateDog = async (id, updatedDog) => {
+  const dog = await prisma.dogs.update({
+    where: { id },
+    data: updatedDog,
+  });
   return dog;
 };
 
-export const updateDog = (index, updatedDog) => {
-  if (dogs[index]) {
-    dogs[index] = updatedDog;
-    return updatedDog;
-  }
-  return handleNotFoundError(null, "Dog not found");
-};
-
-export const deleteDog = (index) => {
-  if (dogs[index]) {
-    return dogs.splice(index, 1);
-  }
-  return handleNotFoundError(null, "Dog not found");
+export const deleteDog = async (id) => {
+  const dog = await prisma.dogs.delete({
+    where: { id },
+  });
+  return dog;
 };
